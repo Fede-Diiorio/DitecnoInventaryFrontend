@@ -1,10 +1,13 @@
 import "./App.css";
+import { BrowserRouter } from "react-router-dom";
 import TestBar from "./components/TestBar/TestBar";
 
 function App() {
   return (
     <>
-      <TestBar />
+      <BrowserRouter>
+        <TestBar />
+      </BrowserRouter>
     </>
   );
 }

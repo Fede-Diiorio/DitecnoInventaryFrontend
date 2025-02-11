@@ -1,0 +1,33 @@
+.container {
+  margin-top: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+
+  .input {
+    padding: 0.7rem;
+    font-size: 1.6rem;
+    border: 1px solid #ccc;
+    border-radius: 0.4rem;
+    width: 20rem;
+  }
+
+  .button {
+    padding: 0.8rem 1.2rem;
+    background-color: $lightPrimaryColor;
+    color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    .logo {
+      font-size: 2rem;
+    }
+
+    &:hover {
+      background-color: darken($primaryColor, 10%);
+    }
+  }
+}

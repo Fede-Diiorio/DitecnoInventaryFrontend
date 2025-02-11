@@ -1,14 +1,16 @@
 import "./App.css";
-import { BrowserRouter } from "react-router-dom";
-import TestBar from "./components/TestBar/TestBar";
+import { BrowserRouter, Router, Route } from "react-router-dom";
+import Header from "./components/header/Header/Header";
+import SearchBar from "./components/general/SearchBar/SearchBar";
 
 function App() {
   return (
-    <>
+    <main>
       <BrowserRouter>
-        <TestBar />
+        <Header />
+        <SearchBar />
       </BrowserRouter>
-    </>
+    </main>
   );
 }
 

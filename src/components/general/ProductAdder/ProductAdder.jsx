@@ -5,7 +5,7 @@ import { getProductByCode } from "../../../utils/productFetcher";
 
 const ProductAdder = () => {
   const [query, setQuery] = useState("");
-  const [productInfo, setProductInfo] = useState(null); // Estado para almacenar la información del producto
+  const [products, setProducts] = useState([]); // Estado para almacenar múltiples productos
 
   const handleInputChange = (e) => {
     setQuery(e.target.value);
@@ -13,17 +13,17 @@ const ProductAdder = () => {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    // Llamar a getProductByCode con el código ingresado en 'query'
+    if (!query.trim()) return; // Evita búsquedas vacías
+
     try {
       const productData = await getProductByCode(query);
-      setProductInfo(productData); // Guardar la información del producto en el estado
+      setProducts((prevProducts) => [...prevProducts, productData]); // Agregar producto al array
+      setQuery(""); // Vaciar el input después de la búsqueda
     } catch (error) {
       console.error("Error al obtener el producto:", error);
       // Manejar el error (por ejemplo, mostrar un mensaje al usuario)
     }
   };
-
-  console.log(productInfo);
 
   return (
     <form onSubmit={handleSearch}>
@@ -39,15 +39,17 @@ const ProductAdder = () => {
           <FaSistrix className={classes.logo} />
         </button>
       </div>
-      {/* Mostrar la información del producto */}
-      {productInfo && (
-        <div className={classes.productInfo}>
-          <h3>{productInfo.product_name}</h3>
-          <p>{productInfo.product_code}</p>
-          <p>{productInfo.product_stock}</p>
-          {/* Otros detalles del producto según la estructura de 'productInfo' */}
-        </div>
-      )}
+
+      {/* Mostrar la lista de productos */}
+      <div className={classes.productList}>
+        {products.map((product, index) => (
+          <div key={index} className={classes.productItem}>
+            <h3>{product.product_name}</h3>
+            <p>Código: {product.product_code}</p>
+            <p>Stock: {product.product_stock}</p>
+          </div>
+        ))}
+      </div>
     </form>
   );
 };

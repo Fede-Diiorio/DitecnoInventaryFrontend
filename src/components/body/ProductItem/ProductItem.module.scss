@@ -12,7 +12,7 @@
   }
 
   &:nth-child(even) {
-    border-color: $primaryColor; // Aplica a los pares (2, 4, 6...)
+    border-color: $darkGrey; // Aplica a los pares (2, 4, 6...)
   }
 
   p {

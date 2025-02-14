@@ -17,7 +17,30 @@ const ProductAdder = () => {
 
     try {
       const productData = await getProductByCode(query);
-      setProducts((prevProducts) => [...prevProducts, productData]); // Agregar producto al array
+      const productPayload = {
+        name: productData.product_name,
+        code: productData.product_code,
+        quantity: 1,
+      };
+
+      setProducts((prevProducts) => {
+        const existingProduct = prevProducts.find(
+          (prod) => prod.code === productPayload.code
+        );
+
+        if (existingProduct) {
+          // Si el producto existe, creamos un nuevo array con la cantidad actualizada
+          return prevProducts.map((prod) =>
+            prod.code === productPayload.code
+              ? { ...prod, quantity: prod.quantity + 1 }
+              : prod
+          );
+        } else {
+          // Si el producto no existe, lo agregamos al array
+          return [...prevProducts, productPayload];
+        }
+      });
+
       setQuery(""); // Vaciar el input después de la búsqueda
     } catch (error) {
       console.error("Error al obtener el producto:", error);
@@ -44,9 +67,9 @@ const ProductAdder = () => {
       <div className={classes.productList}>
         {products.map((product, index) => (
           <div key={index} className={classes.productItem}>
-            <h3>{product.product_name}</h3>
-            <p>Código: {product.product_code}</p>
-            <p>Stock: {product.product_stock}</p>
+            <h3>{product.name}</h3>
+            <p>Código: {product.code}</p>
+            <p>Cantidad: {product.quantity7792798999866}</p>
           </div>
         ))}
       </div>

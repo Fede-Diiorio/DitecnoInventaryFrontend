@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import classes from "./ProductAdder.module.scss";
 import { FaSistrix } from "react-icons/fa6";
 import { getProductByCode } from "../../../utils/productFetcher";
+import ProductList from "../../body/ProductList/ProductList";
 
 const ProductAdder = () => {
   const [query, setQuery] = useState("");
@@ -18,6 +19,7 @@ const ProductAdder = () => {
     try {
       const productData = await getProductByCode(query);
       const productPayload = {
+        id: productData.id,
         name: productData.product_name,
         code: productData.product_code,
         quantity: 1,
@@ -63,16 +65,7 @@ const ProductAdder = () => {
         </button>
       </div>
 
-      {/* Mostrar la lista de productos */}
-      <div className={classes.productList}>
-        {products.map((product, index) => (
-          <div key={index} className={classes.productItem}>
-            <h3>{product.name}</h3>
-            <p>Código: {product.code}</p>
-            <p>Cantidad: {product.quantity7792798999866}</p>
-          </div>
-        ))}
-      </div>
+      <ProductList products={products} />
     </form>
   );
 };

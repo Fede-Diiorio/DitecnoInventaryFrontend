@@ -6,11 +6,12 @@ import { addProductByCode } from "../../../utils/productManager";
 
 const ProductAdder = () => {
   const [query, setQuery] = useState("");
-  const [products, setProducts] = useState([]); // Estado para almacenar múltiples productos
-  const inputRef = useRef(null); // Crear la referencia
+  const [products, setProducts] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(""); // Estado para manejar errores
+  const inputRef = useRef(null);
 
   useEffect(() => {
-    inputRef.current?.focus(); // Enfocar el input cuando el componente se monta
+    inputRef.current?.focus();
   }, []);
 
   const handleInputChange = (e) => {
@@ -19,15 +20,27 @@ const ProductAdder = () => {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    if (!query.trim()) return; // Evita búsquedas vacías
+    if (!query.trim()) return;
 
     try {
-      addProductByCode(query, setProducts);
-      setQuery(""); // Vaciar el input después de la búsqueda
-      inputRef.current?.focus(); // Vuelve a enfocar el input después de la búsqueda
+      setErrorMessage(""); // Limpiar errores previos antes de la nueva búsqueda
+
+      if (query === "CMD00001") {
+        setProducts([]);
+      } else {
+        const error = await addProductByCode(
+          query,
+          setProducts,
+          setErrorMessage
+        );
+        if (error) setErrorMessage(error); // Si hay error, actualizar el estado
+      }
+
+      setQuery("");
+      inputRef.current?.focus();
     } catch (error) {
       console.error("Error al obtener el producto:", error);
-      // Manejar el error (por ejemplo, mostrar un mensaje al usuario)
+      setErrorMessage("Hubo un problema al buscar el producto."); // Mensaje genérico de error
     }
   };
 
@@ -35,7 +48,7 @@ const ProductAdder = () => {
     <form onSubmit={handleSearch}>
       <div className={classes.container}>
         <input
-          ref={inputRef} // Asignar la referencia al input
+          ref={inputRef}
           type="text"
           placeholder="Ingresar código o comando"
           value={query}
@@ -46,7 +59,8 @@ const ProductAdder = () => {
           <FaSistrix className={classes.logo} />
         </button>
       </div>
-
+      {errorMessage && <p className={classes.error}>{errorMessage}</p>}{" "}
+      {/* Mostrar error si existe */}
       <ProductList products={products} />
     </form>
   );

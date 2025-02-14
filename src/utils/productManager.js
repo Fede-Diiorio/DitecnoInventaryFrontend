@@ -24,6 +24,11 @@ export const getProducts = async () => {
 export const addProductByCode = async (query, setProducts) => {
   try {
     const productData = await getProductByCode(query);
+
+    if (!productData.id) {
+      return productData.error;
+    }
+
     const productPayload = {
       id: productData.id,
       name: productData.product_name,

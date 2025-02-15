@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import classes from "./Login.module.scss";
-import { getUserByCode } from "../../../utils/userFetcher";
+import { authUserByCode } from "../../../utils/userFetcher";
 import { AuthContext } from "../../../context/AuthContext";
 
 const Login = () => {
@@ -14,8 +14,8 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const token = await getUserByCode(code);
-    login(token);
+    const response = await authUserByCode(code);
+    login(response.token);
   };
 
   return (

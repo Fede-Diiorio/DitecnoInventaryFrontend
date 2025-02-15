@@ -21,6 +21,30 @@ export const getProducts = async () => {
   }
 };
 
+export const descountStock = async (products) => {
+  const token = sessionStorage.getItem("token");
+  console.log(token);
+  try {
+    const response = await axios.post(
+      `${apiUrl}/api/products/descount`,
+      { products },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error obteniendo producto:",
+      error.response?.data || error.message
+    );
+    return { error: error.message };
+  }
+};
+
 export const addProductByCode = async (query, setProducts) => {
   try {
     const productData = await getProductByCode(query);

@@ -21,6 +21,16 @@ export const getProducts = async () => {
   }
 };
 
+export const getInventory = async () => {
+  try {
+    const response = await axios.get(`${apiUrl}/api/products`);
+    return response.data;
+  } catch (error) {
+    console.error("Error obteniendo producto:", error);
+    return { error: error.message };
+  }
+};
+
 export const descountStock = async (products) => {
   const token = sessionStorage.getItem("token");
   console.log(token);

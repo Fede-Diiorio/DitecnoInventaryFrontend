@@ -6,7 +6,7 @@ const Navegation = () => {
     <nav className={classes.nav}>
       <ul className={classes.ul}>
         <li>
-          <Button>Inventario</Button>
+          <Button to={"/inventario"}>Inventario</Button>
         </li>
         <li>
           <Button>Bajo stock</Button>
